@@ -1,5 +1,6 @@
 require("dotenv/config")
 require("express-async-errors");
+const crypto = require('crypto');
 
 const express = require('express');
 
