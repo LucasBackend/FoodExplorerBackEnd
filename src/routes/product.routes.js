@@ -10,7 +10,10 @@ const ensureAuthenticated = require('../middlewares/ensureAuthenticated')
 
 const router = Router();
 
-router.post('/create',ensureAuthenticated,uploadFile.single('file'),controlproducts.create);
+router.use(ensureAuthenticated)
+
+router.post('/create',uploadFile.single('file'),controlproducts.create);
+router.get('/index',controlproducts.index)
 
 
 
