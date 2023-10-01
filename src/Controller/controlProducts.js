@@ -62,6 +62,47 @@ async create(request,response){
 
 }
 
+async index(request,response){
+
+  const allProducts = await knex("Products");
+
+  const user_id = request.user.id
+
+  const {search} = request.body
+
+  const allIngredients = await knex("Ingredients");
+
+  const allFavoritesProducts = await knex("FavoriteProducts").where({user_id})
+
+ const products = allProducts.map(product=>{
+    const filterIngredients = allIngredients.filter(ingredients=> ingredients.product_id === product.id);
+    const filterFavoriteProducts =  allFavoritesProducts.filter(fav=> fav.product_id === product.id)
+
+    return {
+      ...product,
+      ingredients: filterIngredients,
+      favorite: filterFavoriteProducts.length > 0
+    }
+
+  })
+
+  if(search){
+  const productSearch = products.filter(product=> 
+    product.name.toLowerCase().includes(search.toLowerCase()) ||
+    product.ingredients.some(ingredient => ingredient.name.toLowerCase().includes(search.toLowerCase())))
+  
+    response.status(200).json(productSearch)
+  }else{
+    const productSearch = products;
+
+    response.status(200).json(productSearch)
+  }
+
+  
+
+  
+}
+
 
 }
 
