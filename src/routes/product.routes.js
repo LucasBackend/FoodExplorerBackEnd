@@ -5,11 +5,12 @@ const {MULTER} = require('../config/upload')
 const uploadFile = multer(MULTER)
 
 const controlProducts = require('../Controller/controlProducts');
-const controlproducts = new controlProducts
+const controlproducts = new controlProducts;
+const ensureAuthenticated = require('../middlewares/ensureAuthenticated')
 
 const router = Router();
 
-router.post('/create',uploadFile.single('file'),controlproducts.create);
+router.post('/create',ensureAuthenticated,uploadFile.single('file'),controlproducts.create);
 
 
 
