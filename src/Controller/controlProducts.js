@@ -58,7 +58,7 @@ async create(request,response){
 
 
 
-  response.status(200).json("Produto cadastrado com sucesso!")
+  return response.status(200).json("Produto cadastrado com sucesso!")
 
 }
 
@@ -91,17 +91,42 @@ async index(request,response){
     product.name.toLowerCase().includes(search.toLowerCase()) ||
     product.ingredients.some(ingredient => ingredient.name.toLowerCase().includes(search.toLowerCase())))
   
-    response.status(200).json(productSearch)
+    return response.status(200).json(productSearch)
   }else{
     const productSearch = products;
 
-    response.status(200).json(productSearch)
+    return response.status(200).json(productSearch)
   }
 
   
 
   
 }
+
+async delete(request,response){
+ const {product_id} = request.params
+ const user_id = request.user.id
+
+ if(!product_id){
+  throw new AppError("ID do produto é obrigatório!",401)
+}
+
+const user = await knex("Users").where({id:user_id}).first();
+
+if(!user.admin){
+  throw new AppError("Apenas administradores podem deletar produtos!")
+}
+
+await knex("Products").where({id:product_id}).delete();
+
+return response.status(200).json()
+
+
+
+
+
+}
+
 
 
 }

@@ -13,7 +13,8 @@ const router = Router();
 router.use(ensureAuthenticated)
 
 router.post('/create',uploadFile.single('file'),controlproducts.create);
-router.get('/index',controlproducts.index)
+router.get('/index',controlproducts.index);
+router.delete('/delete/:product_id',controlproducts.delete)
 
 
 
