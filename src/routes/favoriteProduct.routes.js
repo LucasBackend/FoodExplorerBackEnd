@@ -8,6 +8,8 @@ const favoriteproductcontroller = new favoriteProductController();
 const router = Router();
 
 router.post('/create',ensureAuthenticated,favoriteproductcontroller.create);
+router.get('/index',ensureAuthenticated,favoriteproductcontroller.index);
+router.delete('/delete/:id',ensureAuthenticated,favoriteproductcontroller.delete);
 
 
 
