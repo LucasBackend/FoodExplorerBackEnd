@@ -55,6 +55,8 @@ async sessions(request,response){
   return response.status(200).json({"user":user,token})
 }
 
+
+
 }
 
 module.exports = userController
