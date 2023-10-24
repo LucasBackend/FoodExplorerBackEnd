@@ -69,6 +69,7 @@ async index(request,response){
   const user_id = request.user.id
 
   const {search} = request.body
+  
 
   const allIngredients = await knex("Ingredients");
 
