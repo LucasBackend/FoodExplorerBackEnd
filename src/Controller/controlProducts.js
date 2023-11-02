@@ -118,13 +118,69 @@ if(!user.admin){
   throw new AppError("Apenas administradores podem deletar produtos!")
 }
 
+const product = await knex('Products').where({id:product_id}).first()
+
 await knex("Products").where({id:product_id}).delete();
+
+const diskstorage = new DiskStorage()
+
+await diskstorage.deleteFile(product.image)
 
 return response.status(200).json()
 
+}
+
+async item(request,response){
+
+  const id = request.params.id
+
+  const product = await knex('Products').where({id}).first()
+
+  const ingredients = await knex('Ingredients').where({product_id:id})
+
+ 
+  
+
+  response.status(200).json({product,ingredients})
 
 
+}
 
+async update(request, response){
+
+  const {id,name,category,price,description,newIngredients,deleteIngredients} = request.body
+  
+  const record = {
+    id,
+    name,
+    category,
+    price,
+    description
+  }
+
+  await knex('Products').update({name,category,price,description}).where({id:record.id})
+
+  
+  if(newIngredients.length>0){
+    const newIngredient = newIngredients.map(ing=>{
+      return {
+        name: ing,
+        product_id: id
+      }
+    })
+
+    await knex('Ingredients').insert(newIngredient)
+  }
+
+  if(deleteIngredients.length>0){
+    await knex('Ingredients').whereIn('id',deleteIngredients.map(ing=>ing.id)).delete()
+
+
+    }
+  
+
+
+  return response.json({})
 
 }
 
