@@ -11,6 +11,13 @@ class favoriteProductController{
       throw new AppError("O id do usuário ou do produto é inválido!",401)
     }
 
+    const isFavorite = await knex('FavoriteProducts').where({product_id,user_id}).first()
+
+    if(isFavorite){
+      await knex('FavoriteProducts').where({product_id,user_id}).delete()
+      return response.json('item retirado do favorito!')
+    }
+
     await knex("FavoriteProducts").insert({user_id,product_id});
 
     return response.status(200).json("O item foi favoritado com sucesso!");
