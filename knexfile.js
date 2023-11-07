@@ -5,11 +5,11 @@ module.exports = {
   development: {
     client: 'postgresql', // Mude para 'postgresql'
     connection: {
-      host: process.env.HOST,
-      port: process.env.PORTDB,
-      user: process.env.USER ,
-      password: process.env.PASSWORD,
-      database: process.env.DATABASE,
+      host: 'dpg-ck9lqougtj9c73b4g4ug-a.ohio-postgres.render.com',
+      port: '5432',
+      user: 'lhr_postgre_user' ,
+      password: 'd0vwPYA5ceisEUjFqJ22HEnM02Yq7B1N',
+      database: 'lhr_postgre',
       ssl:true,
     },
 
